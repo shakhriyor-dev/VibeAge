@@ -32,4 +32,4 @@ This project goes beyond simple calculations by implementing professional-grade 
 </div>
 
 ---
-*Created with focus on clean code and seamless user interaction.*
+*👨‍💻 Developed by: [shakhriyor-dev].*
