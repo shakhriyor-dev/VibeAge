@@ -13,15 +13,18 @@
             <div class="input-group">
                <label>Tug'ilgan sanangizni kiriting:</label>
                <div class="date-inputs">
-                    <input type="number" id="day" placeholder="DD" 
+                    <input type="text" id="day" placeholder="DD" 
+                           inputmode="numeric" pattern="[0-9]*"
                            oninput="limitLength(this, 2, 'month')" 
                            onkeydown="handleKeyEvents(event, null, 'month')">
                            
-                    <input type="number" id="month" placeholder="MM" 
+                    <input type="text" id="month" placeholder="MM" 
+                           inputmode="numeric" pattern="[0-9]*"
                            oninput="limitLength(this, 2, 'year')" 
                            onkeydown="handleKeyEvents(event, 'day', 'year')">
                            
-                    <input type="number" id="year" placeholder="YYYY" 
+                    <input type="text" id="year" placeholder="YYYY" 
+                           inputmode="numeric" pattern="[0-9]*"
                            oninput="limitLength(this, 4, null)" 
                            onkeydown="handleKeyEvents(event, 'month', null)">
                 </div>
