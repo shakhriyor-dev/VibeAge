@@ -1,0 +1,89 @@
+:root {
+     --bg: #0f172a;
+     --card-bg: rgba(30, 41, 59, 0.7);
+     --accent: #38bdf8;
+     --text: #f8fafc;
+ }
+ 
+ body {
+     background-color: var(--bg);
+     background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+     color: var(--text);
+     font-family: 'Segoe UI', sans-serif;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 100vh;
+     margin: 0;
+ }
+ 
+ .card {
+     background: var(--card-bg);
+     backdrop-filter: blur(12px);
+     border: 1px solid rgba(255, 255, 255, 0.1);
+     padding: 2.5rem;
+     border-radius: 24px;
+     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+     width: 100%;
+     max-width: 450px;
+     text-align: center;
+ }
+ 
+ .title {
+     font-size: 1.8rem;
+     margin-bottom: 1.5rem;
+     background: linear-gradient(to right, #38bdf8, #818cf8);
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+ }
+ 
+ .input-group input {
+     width: 80%;
+     padding: 12px;
+     border-radius: 12px;
+     border: 2px solid #334155;
+     background: #0f172a;
+     color: white;
+     font-size: 1rem;
+     outline: none;
+     transition: 0.3s;
+ }
+ 
+ .input-group input:focus {
+     border-color: var(--accent);
+     box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+ }
+ 
+ .stats-grid {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 15px;
+     margin-top: 25px;
+ }
+ 
+ .stat-card {
+     background: rgba(255, 255, 255, 0.05);
+     padding: 15px;
+     border-radius: 16px;
+     border: 1px solid rgba(255, 255, 255, 0.05);
+ }
+ 
+ .stat-card span {
+     font-size: 1.4rem;
+     font-weight: bold;
+     color: var(--accent);
+ }
+ 
+ .next-birthday {
+     margin-top: 20px;
+     padding: 15px;
+     background: linear-gradient(45deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.1));
+     border-radius: 12px;
+     font-weight: 500;
+ }
+ 
+ .live-counter {
+     margin-top: 15px;
+     font-size: 0.8rem;
+     opacity: 0.7;
+ }
