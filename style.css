@@ -136,3 +136,18 @@
      -webkit-appearance: none;
      margin: 0;
  }
+
+ /* Xato kiritilganda input stili */
+.input-error {
+     border-color: #ff4b2b !important;
+     box-shadow: 0 0 10px rgba(255, 75, 43, 0.5) !important;
+     color: #ff4b2b !important;
+ }
+ 
+ /* Xato xabari uchun kichik matn (ixtiyoriy) */
+ .error-message {
+     color: #ff4b2b;
+     font-size: 0.8rem;
+     margin-top: 10px;
+     display: none; /* Odatiy holatda yashirin */
+ }

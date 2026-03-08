@@ -33,35 +33,45 @@ function moveToNext(event, nextFieldID) {
 
 // 3. Kiritilgan sanani tekshirish
 function manualCheck() {
-     const d = document.getElementById('day').value;
-     const m = document.getElementById('month').value;
-     const y = document.getElementById('year').value;
+     const dInput = document.getElementById('day');
+     const mInput = document.getElementById('month');
+     const yInput = document.getElementById('year');
+     
+     const d = dInput.value;
+     const m = mInput.value;
+     const y = yInput.value;
  
-     // MUHIM: Faqat yil 4 ta raqam bo'lgandagina hisoblashni boshlaymiz
-     // y.toString().length dan ko'ra y.length xavfsizroq (input type number bo'lsa)
+     // Har safar tekshirishdan oldin qizil rangni olib tashlaymiz
+     dInput.classList.remove('input-error');
+     mInput.classList.remove('input-error');
+     yInput.classList.remove('input-error');
+ 
+     // 1. Kun va Oy chegarasini tekshirish
+     if (d > 31) dInput.classList.add('input-error');
+     if (m > 12) mInput.classList.add('input-error');
+ 
+     // 2. To'liq sana kiritilganda mantiqiy tekshirish
      if (d >= 1 && d <= 31 && m >= 1 && m <= 12 && y.length === 4) {
-         
-         // Yil mantiqan to'g'ri ekanligini tekshiramiz (masalan 1900 dan katta)
-         if (parseInt(y) < 1900 || parseInt(y) > new Date().getFullYear() + 1) {
-             document.getElementById('resultBox').style.display = 'none';
-             return;
-         }
- 
          const birthDate = new Date(y, m - 1, d);
+         const now = new Date();
  
-         // Sananing haqiqiyligini tekshirish (masalan 31-aprel bo'lmasligi kerak)
-         if (birthDate.getFullYear() == y && birthDate.getMonth() == m - 1 && birthDate.getDate() == d) {
+         // Haqiqiy sana ekanligini (masalan, 31-fevral emasligini) tekshirish
+         const isValidDate = birthDate.getFullYear() == y && 
+                             birthDate.getMonth() == m - 1 && 
+                             birthDate.getDate() == d;
+ 
+         if (isValidDate && birthDate <= now) {
              startTracking(birthDate);
          } else {
+             // Agar sana mantiqsiz bo'lsa (masalan, kelajak yoki 31-aprel)
+             dInput.classList.add('input-error');
+             mInput.classList.add('input-error');
+             yInput.classList.add('input-error');
              document.getElementById('resultBox').style.display = 'none';
              confettiLaunched = false;
          }
      } else {
-         // Agar yil hali 4 xonali bo'lmasa, natijani yashirib turamiz
          document.getElementById('resultBox').style.display = 'none';
-         confettiLaunched = false; 
-         
-         // Agar interval ishlayotgan bo'lsa, uni to'xtatib turamiz
          if (timerInterval) clearInterval(timerInterval);
      }
  }
