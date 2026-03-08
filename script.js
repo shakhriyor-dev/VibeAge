@@ -1,30 +1,52 @@
 let timerInterval;
+let confettiLaunched = false; // Confetti faqat bir marta otilishi uchun
 
+// 1. Raqamlar uzunligini cheklash va avtomatik hisoblash
+function limitLength(element, max) {
+    if (element.value.length > max) {
+        element.value = element.value.slice(0, max);
+    }
+    manualCheck(); // Har bir raqam yozilganda tekshiradi
+}
+
+// 2. Enter bosilganda keyingi maydonga o'tish
+function moveToNext(event, nextFieldID) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        if (nextFieldID) {
+            document.getElementById(nextFieldID).focus();
+        } else {
+            document.getElementById('year').blur(); // Fokusni yo'qotish
+            manualCheck();
+        }
+    }
+}
+
+// 3. Kiritilgan sanani tekshirish
 function manualCheck() {
     const d = document.getElementById('day').value;
     const m = document.getElementById('month').value;
     const y = document.getElementById('year').value;
 
-    // Kun (1-31), Oy (1-12) va Yil (kamida 4 ta raqam) ekanligini tekshiramiz
     if (d >= 1 && d <= 31 && m >= 1 && m <= 12 && y.length === 4) {
-        const birthDate = new Date(y, m - 1, d); // Oy 0 dan boshlangani uchun m-1
+        const birthDate = new Date(y, m - 1, d);
 
-        // Kiritilgan sana haqiqiy ekanligini tekshirish (masalan, 31-fevral bo'lmasligi kerak)
+        // Sana haqiqiyligini tekshirish (masalan 31-fevral bo'lmasligi kerak)
         if (birthDate.getFullYear() == y && birthDate.getMonth() == m - 1 && birthDate.getDate() == d) {
             startTracking(birthDate);
         } else {
-            // Agar sana noto'g'ri bo'lsa (masalan 31-fevral), natijani yashirib turamiz
             document.getElementById('resultBox').style.display = 'none';
         }
     } else {
         document.getElementById('resultBox').style.display = 'none';
+        confettiLaunched = false; // Yangi sana kiritilsa konfettini qayta yoqish imkoni
     }
 }
 
+// 4. Asosiy hisoblash va natijalarni ko'rsatish
 function startTracking(birthDate) {
     document.getElementById('resultBox').style.display = 'block';
     
-    // Eski intervalni tozalash
     if (timerInterval) clearInterval(timerInterval);
     
     const update = () => {
@@ -33,31 +55,32 @@ function startTracking(birthDate) {
 
         if (diffMs < 0) {
             document.getElementById('nextBDayText').innerText = "Siz kelajakdanmisiz? 😊";
-            document.getElementById('daysCounter').innerText = "0";
-            document.getElementById('secondsLive').innerText = "0";
             return;
         }
 
-        // 1. Yashagan kunlar va soniyalar
         const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
         const seconds = Math.floor(diffMs / 1000);
         
         document.getElementById('daysCounter').innerText = days.toLocaleString();
         document.getElementById('secondsLive').innerText = seconds.toLocaleString();
-
-        // 2. Burj aniqlash
         document.getElementById('zodiacSign').innerText = getZodiac(birthDate);
 
-        // 3. Keyingi tug'ilgan kun mantiqi
         const nextBDayInfo = getNextBirthdayInfo(birthDate, now);
         document.getElementById('nextBDayText').innerText = 
             `Yana ${nextBDayInfo.daysLeft} kundan keyin siz ${nextBDayInfo.nextAge} yoshga to'lasiz! 🎉`;
+
+        // CONFETTI MANTIQI: 30 kun yoki undan oz qolgan bo'lsa
+        if (nextBDayInfo.daysLeft <= 30 && !confettiLaunched) {
+            launchConfetti();
+            confettiLaunched = true;
+        }
     };
 
     update();
     timerInterval = setInterval(update, 1000);
 }
 
+// 5. Burj aniqlash (Zodiac Sign)
 function getZodiac(date) {
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -75,11 +98,11 @@ function getZodiac(date) {
     return "Baliq (Pisces)";
 }
 
+// 6. Keyingi tug'ilgan kungacha qolgan vaqt
 function getNextBirthdayInfo(birthDate, now) {
     let nextAge = now.getFullYear() - birthDate.getFullYear();
     let nextBDay = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate());
     
-    // Agar bu yilgi tug'ilgan kuni o'tib ketgan bo'lsa, keyingi yilga o'tamiz
     if (now > nextBDay) {
         nextBDay.setFullYear(now.getFullYear() + 1);
         nextAge++;
@@ -91,25 +114,12 @@ function getNextBirthdayInfo(birthDate, now) {
     return { daysLeft, nextAge };
 }
 
-// Enter bosilganda keyingi maydonga o'tish
-function moveToNext(event, nextFieldID) {
-     if (event.key === "Enter") {
-         event.preventDefault(); // Sahifa yangilanib ketishini oldini oladi
-         
-         if (nextFieldID) {
-             document.getElementById(nextFieldID).focus();
-         } else {
-             // Agar oxirgi maydon (year) bo'lsa, fokusni yo'qotadi va hisoblaydi
-             document.getElementById('year').blur();
-             manualCheck(); 
-         }
-     }
- }
- 
- // Raqamlar uzunligini cheklash va avtomatik hisoblashni chaqirish
- function limitLength(element, max) {
-     if (element.value.length > max) {
-         element.value = element.value.slice(0, max);
-     }
-     manualCheck(); // Har bir raqam yozilganda tekshirib turadi
- }
+// 7. Confetti effekti funksiyasi
+function launchConfetti() {
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#38bdf8', '#818cf8', '#ffffff']
+    });
+}
