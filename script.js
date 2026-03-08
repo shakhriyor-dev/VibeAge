@@ -2,12 +2,21 @@ let timerInterval;
 let confettiLaunched = false; // Confetti faqat bir marta otilishi uchun
 
 // 1. Raqamlar uzunligini cheklash va avtomatik hisoblash
-function limitLength(element, max) {
-    if (element.value.length > max) {
-        element.value = element.value.slice(0, max);
-    }
-    manualCheck(); // Har bir raqam yozilganda tekshiradi
-}
+// Uzunlikni cheklash va avtomatik keyingi maydonga o'tish
+function limitLength(element, max, nextFieldID) {
+     // Faqat raqamlarni qoldirish (xatolikni oldini olish uchun)
+     if (element.value.length > max) {
+         element.value = element.value.slice(0, max);
+     }
+ 
+     // Agar limitga yetsa, keyingi maydonga fokusni o'tkazish
+     if (element.value.length === max && nextFieldID) {
+         document.getElementById(nextFieldID).focus();
+     }
+ 
+     // Har safar ma'lumot kiritilganda hisoblashni tekshirish
+     manualCheck();
+ }
 
 // 2. Enter bosilganda keyingi maydonga o'tish
 function moveToNext(event, nextFieldID) {
