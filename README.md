@@ -24,6 +24,12 @@ This project goes beyond simple calculations by implementing professional-grade 
 * **CSS3:** Glassmorphism, Neon UI effects, and Flexbox layouts.
 * **JavaScript (ES6+):** Real-time DOM manipulation, Date objects, and Regex-based input sanitization.
 * **Canvas Confetti:** Integrated via CDN for lightweight celebratory animations.
+---
+
+<div display="flex" align="center">
+  <img src="./screenshots/empty data.png" alt="Calculator" width="500">
+  <img src="./screenshots/with data.jpg" alt="Calculator" width="500">
+</div>
 
 ---
 *Created with focus on clean code and seamless user interaction.*
