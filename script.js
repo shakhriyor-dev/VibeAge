@@ -24,24 +24,38 @@ function moveToNext(event, nextFieldID) {
 
 // 3. Kiritilgan sanani tekshirish
 function manualCheck() {
-    const d = document.getElementById('day').value;
-    const m = document.getElementById('month').value;
-    const y = document.getElementById('year').value;
-
-    if (d >= 1 && d <= 31 && m >= 1 && m <= 12 && y.length === 4) {
-        const birthDate = new Date(y, m - 1, d);
-
-        // Sana haqiqiyligini tekshirish (masalan 31-fevral bo'lmasligi kerak)
-        if (birthDate.getFullYear() == y && birthDate.getMonth() == m - 1 && birthDate.getDate() == d) {
-            startTracking(birthDate);
-        } else {
-            document.getElementById('resultBox').style.display = 'none';
-        }
-    } else {
-        document.getElementById('resultBox').style.display = 'none';
-        confettiLaunched = false; // Yangi sana kiritilsa konfettini qayta yoqish imkoni
-    }
-}
+     const d = document.getElementById('day').value;
+     const m = document.getElementById('month').value;
+     const y = document.getElementById('year').value;
+ 
+     // MUHIM: Faqat yil 4 ta raqam bo'lgandagina hisoblashni boshlaymiz
+     // y.toString().length dan ko'ra y.length xavfsizroq (input type number bo'lsa)
+     if (d >= 1 && d <= 31 && m >= 1 && m <= 12 && y.length === 4) {
+         
+         // Yil mantiqan to'g'ri ekanligini tekshiramiz (masalan 1900 dan katta)
+         if (parseInt(y) < 1900 || parseInt(y) > new Date().getFullYear() + 1) {
+             document.getElementById('resultBox').style.display = 'none';
+             return;
+         }
+ 
+         const birthDate = new Date(y, m - 1, d);
+ 
+         // Sananing haqiqiyligini tekshirish (masalan 31-aprel bo'lmasligi kerak)
+         if (birthDate.getFullYear() == y && birthDate.getMonth() == m - 1 && birthDate.getDate() == d) {
+             startTracking(birthDate);
+         } else {
+             document.getElementById('resultBox').style.display = 'none';
+             confettiLaunched = false;
+         }
+     } else {
+         // Agar yil hali 4 xonali bo'lmasa, natijani yashirib turamiz
+         document.getElementById('resultBox').style.display = 'none';
+         confettiLaunched = false; 
+         
+         // Agar interval ishlayotgan bo'lsa, uni to'xtatib turamiz
+         if (timerInterval) clearInterval(timerInterval);
+     }
+ }
 
 // 4. Asosiy hisoblash va natijalarni ko'rsatish
 function startTracking(birthDate) {
