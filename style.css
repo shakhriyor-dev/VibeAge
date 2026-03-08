@@ -33,7 +33,6 @@
      font-size: 1.8rem;
      margin-bottom: 1.5rem;
      background: linear-gradient(to right, #38bdf8, #818cf8);
-     -webkit-background-clip: text;
      -webkit-text-fill-color: transparent;
  }
  
