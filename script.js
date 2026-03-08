@@ -4,32 +4,38 @@ let confettiLaunched = false; // Confetti faqat bir marta otilishi uchun
 // 1. Raqamlar uzunligini cheklash va avtomatik hisoblash
 // Uzunlikni cheklash va avtomatik keyingi maydonga o'tish
 function limitLength(element, max, nextFieldID) {
-     // Faqat raqamlarni qoldirish (xatolikni oldini olish uchun)
      if (element.value.length > max) {
          element.value = element.value.slice(0, max);
      }
  
-     // Agar limitga yetsa, keyingi maydonga fokusni o'tkazish
+     // Faqat raqam yozib to'ldirilganda keyingisiga o'tadi
      if (element.value.length === max && nextFieldID) {
          document.getElementById(nextFieldID).focus();
      }
  
-     // Har safar ma'lumot kiritilganda hisoblashni tekshirish
      manualCheck();
  }
 
-// 2. Enter bosilganda keyingi maydonga o'tish
-function moveToNext(event, nextFieldID) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        if (nextFieldID) {
-            document.getElementById(nextFieldID).focus();
-        } else {
-            document.getElementById('year').blur(); // Fokusni yo'qotish
-            manualCheck();
-        }
-    }
-}
+// Enter bosilganda keyingisiga, Backspace bosilganda oldingisiga o'tish
+function handleKeyEvents(event, prevFieldID, nextFieldID) {
+     // 1. ENTER BOSILGANDA (Keyingisiga o'tish)
+     if (event.key === "Enter") {
+         event.preventDefault();
+         if (nextFieldID) {
+             document.getElementById(nextFieldID).focus();
+         } else {
+             document.getElementById(event.target.id).blur();
+             manualCheck();
+         }
+     }
+ 
+     // 2. BACKSPACE BOSILGANDA (Oldingisiga o'tish)
+     if (event.key === "Backspace" && event.target.value === "") {
+         if (prevFieldID) {
+             document.getElementById(prevFieldID).focus();
+         }
+     }
+ }
 
 // 3. Kiritilgan sanani tekshirish
 function manualCheck() {
