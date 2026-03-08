@@ -32,8 +32,24 @@
  .title {
      font-size: 1.8rem;
      margin-bottom: 1.5rem;
+     font-weight: bold;
+     
+     /* Oddiy rang beramiz (agar gradient o'xshamasa shu ko'rinadi) */
+     color: #38bdf8; 
+ 
+     /* Gradientni qo'llash */
      background: linear-gradient(to right, #38bdf8, #818cf8);
+     
+     /* Matnni qirqib olish */
+     background-clip: text;
+     -webkit-background-clip: text;
+     
+     /* Matn rangini shaffof qilish - FAQAT gradient ishlasa */
      -webkit-text-fill-color: transparent;
+     
+     /* Elementni markazlash va ko'rinishini ta'minlash */
+     display: block;
+     width: 100%;
  }
  
  .input-group input {
