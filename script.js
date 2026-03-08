@@ -90,3 +90,26 @@ function getNextBirthdayInfo(birthDate, now) {
     
     return { daysLeft, nextAge };
 }
+
+// Enter bosilganda keyingi maydonga o'tish
+function moveToNext(event, nextFieldID) {
+     if (event.key === "Enter") {
+         event.preventDefault(); // Sahifa yangilanib ketishini oldini oladi
+         
+         if (nextFieldID) {
+             document.getElementById(nextFieldID).focus();
+         } else {
+             // Agar oxirgi maydon (year) bo'lsa, fokusni yo'qotadi va hisoblaydi
+             document.getElementById('year').blur();
+             manualCheck(); 
+         }
+     }
+ }
+ 
+ // Raqamlar uzunligini cheklash va avtomatik hisoblashni chaqirish
+ function limitLength(element, max) {
+     if (element.value.length > max) {
+         element.value = element.value.slice(0, max);
+     }
+     manualCheck(); // Har bir raqam yozilganda tekshirib turadi
+ }
