@@ -11,11 +11,13 @@
         <div class="card">
             <h2 class="title">Hayot Yo'li Tracker</h2>
             <div class="input-group">
-                <label for="birthDate">Tug'ilgan sanangizni tanlang:</label>
-                <br><br>
-                <input type="date" id="birthDate" onchange="startTracking()">
-            </div>
-
+               <label>Tug'ilgan sanangizni kiriting:</label>
+               <div class="date-inputs">
+                   <input type="number" id="day" placeholder="DD" min="1" max="31" oninput="manualCheck()">
+                   <input type="number" id="month" placeholder="MM" min="1" max="12" oninput="manualCheck()">
+                   <input type="number" id="year" placeholder="YYYY" min="1900" max="2026" oninput="manualCheck()">
+               </div>
+           </div>
             <div id="resultBox" class="results" style="display: none;">
                 <div class="stats-grid">
                     <div class="stat-card">

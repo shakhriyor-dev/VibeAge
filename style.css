@@ -102,3 +102,37 @@
      font-size: 0.8rem;
      opacity: 0.7;
  }
+
+ .date-inputs {
+     display: flex;
+     gap: 10px;
+     justify-content: center;
+     margin-top: 10px;
+ }
+ 
+ .date-inputs input {
+     width: 60px;
+     padding: 10px;
+     background: rgba(15, 23, 42, 0.8);
+     border: 2px solid #334155;
+     border-radius: 8px;
+     color: white;
+     text-align: center;
+     font-size: 1.1rem;
+ }
+ 
+ .date-inputs input#year {
+     width: 100px;
+ }
+ 
+ .date-inputs input:focus {
+     border-color: #38bdf8;
+     outline: none;
+ }
+ 
+ /* Arrow (o'qchalar) ni olib tashlash */
+ input::-webkit-outer-spin-button,
+ input::-webkit-inner-spin-button {
+     -webkit-appearance: none;
+     margin: 0;
+ }

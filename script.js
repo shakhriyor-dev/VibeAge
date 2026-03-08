@@ -1,36 +1,61 @@
 let timerInterval;
 
-function startTracking() {
-    const birthValue = document.getElementById('birthDate').value;
-    if (!birthValue) return;
+function manualCheck() {
+    const d = document.getElementById('day').value;
+    const m = document.getElementById('month').value;
+    const y = document.getElementById('year').value;
 
-    document.getElementById('resultBox').style.display = 'block';
-    
-    if (timerInterval) clearInterval(timerInterval);
-    
-    updateStats();
-    timerInterval = setInterval(updateStats, 1000);
+    // Kun (1-31), Oy (1-12) va Yil (kamida 4 ta raqam) ekanligini tekshiramiz
+    if (d >= 1 && d <= 31 && m >= 1 && m <= 12 && y.length === 4) {
+        const birthDate = new Date(y, m - 1, d); // Oy 0 dan boshlangani uchun m-1
+
+        // Kiritilgan sana haqiqiy ekanligini tekshirish (masalan, 31-fevral bo'lmasligi kerak)
+        if (birthDate.getFullYear() == y && birthDate.getMonth() == m - 1 && birthDate.getDate() == d) {
+            startTracking(birthDate);
+        } else {
+            // Agar sana noto'g'ri bo'lsa (masalan 31-fevral), natijani yashirib turamiz
+            document.getElementById('resultBox').style.display = 'none';
+        }
+    } else {
+        document.getElementById('resultBox').style.display = 'none';
+    }
 }
 
-function updateStats() {
-    const birthDate = new Date(document.getElementById('birthDate').value);
-    const now = new Date();
+function startTracking(birthDate) {
+    document.getElementById('resultBox').style.display = 'block';
     
-    // 1. Yashagan kunlar va soniyalar
-    const diffMs = now - birthDate;
-    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const seconds = Math.floor(diffMs / 1000);
+    // Eski intervalni tozalash
+    if (timerInterval) clearInterval(timerInterval);
     
-    document.getElementById('daysCounter').innerText = days.toLocaleString();
-    document.getElementById('secondsLive').innerText = seconds.toLocaleString();
+    const update = () => {
+        const now = new Date();
+        const diffMs = now - birthDate;
 
-    // 2. Burj aniqlash
-    document.getElementById('zodiacSign').innerText = getZodiac(birthDate);
+        if (diffMs < 0) {
+            document.getElementById('nextBDayText').innerText = "Siz kelajakdanmisiz? 😊";
+            document.getElementById('daysCounter').innerText = "0";
+            document.getElementById('secondsLive').innerText = "0";
+            return;
+        }
 
-    // 3. Keyingi tug'ilgan kun mantiqi
-    const nextBDayInfo = getNextBirthdayInfo(birthDate, now);
-    document.getElementById('nextBDayText').innerText = 
-        `Yana ${nextBDayInfo.daysLeft} kundan keyin siz ${nextBDayInfo.nextAge} yoshga to'lasiz! 🎉`;
+        // 1. Yashagan kunlar va soniyalar
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const seconds = Math.floor(diffMs / 1000);
+        
+        document.getElementById('daysCounter').innerText = days.toLocaleString();
+        document.getElementById('secondsLive').innerText = seconds.toLocaleString();
+
+        // 2. Burj aniqlash
+        document.getElementById('zodiacSign').innerText = getZodiac(birthDate);
+
+        // 3. Keyingi tug'ilgan kun mantiqi
+        const nextBDayInfo = getNextBirthdayInfo(birthDate, now);
+        document.getElementById('nextBDayText').innerText = 
+            `Yana ${nextBDayInfo.daysLeft} kundan keyin siz ${nextBDayInfo.nextAge} yoshga to'lasiz! 🎉`;
+    };
+
+    update();
+    timerInterval = setInterval(update, 1000);
 }
 
 function getZodiac(date) {
@@ -54,6 +79,7 @@ function getNextBirthdayInfo(birthDate, now) {
     let nextAge = now.getFullYear() - birthDate.getFullYear();
     let nextBDay = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate());
     
+    // Agar bu yilgi tug'ilgan kuni o'tib ketgan bo'lsa, keyingi yilga o'tamiz
     if (now > nextBDay) {
         nextBDay.setFullYear(now.getFullYear() + 1);
         nextAge++;
