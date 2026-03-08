@@ -15,15 +15,15 @@
                <div class="date-inputs">
                     <input type="number" id="day" placeholder="DD" 
                            oninput="limitLength(this, 2, 'month')" 
-                           onkeydown="moveToNext(event, 'month')">
+                           onkeydown="handleKeyEvents(event, null, 'month')">
                            
                     <input type="number" id="month" placeholder="MM" 
                            oninput="limitLength(this, 2, 'year')" 
-                           onkeydown="moveToNext(event, 'year')">
+                           onkeydown="handleKeyEvents(event, 'day', 'year')">
                            
                     <input type="number" id="year" placeholder="YYYY" 
                            oninput="limitLength(this, 4, null)" 
-                           onkeydown="moveToNext(event, null)">
+                           onkeydown="handleKeyEvents(event, 'month', null)">
                 </div>
            </div>
             <div id="resultBox" class="results" style="display: none;">
