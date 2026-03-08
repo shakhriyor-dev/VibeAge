@@ -1,11 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Tracker | U-Universe Style</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-     
+    <div class="container">
+        <div class="card">
+            <h2 class="title">Hayot Yo'li Tracker</h2>
+            <div class="input-group">
+                <label for="birthDate">Tug'ilgan sanangizni tanlang:</label>
+                <input type="date" id="birthDate" onchange="startTracking()">
+            </div>
+
+            <div id="resultBox" class="results" style="display: none;">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span id="daysCounter">0</span>
+                        <p>Yashagan kunlaringiz</p>
+                    </div>
+                    <div class="stat-card">
+                        <span id="zodiacSign">...</span>
+                        <p>Burjingiz</p>
+                    </div>
+                </div>
+
+                <div class="next-birthday">
+                    <p id="nextBDayText">Sana kiriting...</p>
+                </div>
+
+                <div class="live-counter">
+                    <p>Hozirgacha: <span id="secondsLive">0</span> soniya o'tdi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
