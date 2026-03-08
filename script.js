@@ -36,6 +36,22 @@ function handleKeyEvents(event, prevFieldID, nextFieldID) {
          }
      }
  }
+ 
+ function limitLength(element, max, nextFieldID) {
+     // Faqat raqamlarni qoldirish (harflarni o'chirib tashlaydi)
+     element.value = element.value.replace(/[^0-9]/g, '');
+ 
+     if (element.value.length > max) {
+         element.value = element.value.slice(0, max);
+     }
+ 
+     // Avtomatik keyingisiga o'tish
+     if (element.value.length === max && nextFieldID) {
+         document.getElementById(nextFieldID).focus();
+     }
+ 
+     manualCheck();
+ }
 
 // 3. Kiritilgan sanani tekshirish
 function manualCheck() {
